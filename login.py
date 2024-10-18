@@ -7,7 +7,7 @@ def login():
         messagebox.showerror('Error','All fields are required')
 
     elif usernameEntry.get()=='shubh' and passwordEntry.get()=='1234':
-        messagebox.showinfo('Success','User Login')
+        #messagebox.showinfo('Success','User Login')
         root.destroy()
         import ems
     else:
