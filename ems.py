@@ -8,12 +8,12 @@ def only_numbers(char):
 
 window = CTk()
 #window name and size
-window.geometry('930x580')
+window.geometry('930x580+100+100')
 window.resizable(0,0)
 window.title("Employee Managment System")
 
 #background image, its size, and functionality 
-image = CTkImage(Image.open('ems-bg.jpg'),size=(930,170))
+image = CTkImage(Image.open('ems-bg.jpg'),size=(930,158))
 imageLabel = CTkLabel(window,image = image,text="")
 imageLabel.grid(row=0,column=0,columnspan=2)
 
@@ -23,47 +23,47 @@ leftFrame.grid(row=1,column=0)
 
 #id_label
 idLabel = CTkLabel(leftFrame, text='Id', font=('arial',18,'bold'))
-idLabel.grid(row=0,column=0)
+idLabel.grid(row=0,column=0,sticky='w')
 idEntry = CTkEntry(leftFrame, font=('arial',12,'bold'), width=180)
-idEntry.grid(row=0,column=1,padx=20,pady=10)
+idEntry.grid(row=0,column=1,padx=20,pady=15)
 
 #Name_label
 nameLabel = CTkLabel(leftFrame, text='Name', font=('arial',18,'bold'))
-nameLabel.grid(row=1,column=0)
+nameLabel.grid(row=1,column=0,sticky='w')
 nameEntry = CTkEntry(leftFrame, font=('arial',12,'bold'), width=180)
-nameEntry.grid(row=1,column=1,)
+nameEntry.grid(row=1,column=1,padx=20,pady=15)
 
 #Phone_label
 phoneLabel = CTkLabel(leftFrame, text='Phone', font=('arial',18,'bold'))
-phoneLabel.grid(row=2,column=0)
+phoneLabel.grid(row=2,column=0,sticky='w')
 phoneEntry = CTkEntry(leftFrame, font=('arial',12,'bold'), width=180)
-phoneEntry.grid(row=2,column=1,padx=20,pady=10)
+phoneEntry.grid(row=2,column=1,padx=20,pady=15)
 
 #Role_label
 roleLabel = CTkLabel(leftFrame, text='Role', font=('arial',18,'bold'))
-roleLabel.grid(row=3,column=0)
+roleLabel.grid(row=3,column=0,sticky='w')
 role_options = ['Web Developer','SOftware Developer','App Developer','Cloud Architect','HR',
                 'Network Engineer','Data Analyst','Data Scientist','Project Manager','Sales Manager']
 roleBox = CTkComboBox(leftFrame, values=role_options, width=180,state='readonly')
-roleBox.grid(row=3,column=1,padx=20,pady=10)
+roleBox.grid(row=3,column=1,padx=20,pady=15)
 roleBox.set('Select Option')
 
 #gender_label
 genderLabel = CTkLabel(leftFrame, text='Gender', font=('arial',18,'bold'))
-genderLabel.grid(row=4,column=0)
+genderLabel.grid(row=4,column=0,sticky='w')
 gender_options = ['Male','Female','Transgender']
 genderBox = CTkComboBox(leftFrame, values=gender_options, width=180,state='readonly')
-genderBox.grid(row=4,column=1,padx=20,pady=10)
+genderBox.grid(row=4,column=1,padx=20,pady=15)
 genderBox.set('Select Option')
 
 #salary_label
 salaryLabel = CTkLabel(leftFrame, text='Salary', font=('arial',18,'bold'))
-salaryLabel.grid(row=5,column=0)
+salaryLabel.grid(row=5,column=0,sticky='w')
 #to make sure only numerical values are added
 vcmd = (leftFrame.register(only_numbers), '%S')
 #The validate="key" and validatecommand=vcmd parameters are applied to restrict the input to only digits.
 salaryEntry = CTkEntry(leftFrame, font=('arial',12,'bold'), width=180, validate="key", validatecommand=vcmd)
-salaryEntry.grid(row=5,column=1,padx=20,pady=10)
+salaryEntry.grid(row=5,column=1,padx=20,pady=15)
 
 
 rightFrame = CTkFrame(window)
@@ -71,7 +71,7 @@ rightFrame.grid(row=1,column=1)
 
 #search options
 search_options=['Id','Name','Phone','Role','Gender','Salary']
-searchBox = CTkComboBox(rightFrame, values=search_options, width=180,state='readonly')
+searchBox = CTkComboBox(rightFrame, values=search_options, state='readonly')
 searchBox.grid(row=0,column=0)
 searchBox.set('Select Option')
 
@@ -80,11 +80,11 @@ searchEntry = CTkEntry(rightFrame)
 searchEntry.grid(row=0,column=1)
 
 #search button
-searchButton = CTkButton(rightFrame, text='SEARCH')
+searchButton = CTkButton(rightFrame, text='SEARCH',width=100)
 searchButton.grid(row=0,column=2)
 
-#Show Button
-showallButton = CTkButton(rightFrame, text='Show All')
+#Show All Button
+showallButton = CTkButton(rightFrame, text='Show All',width=100)
 showallButton.grid(row=0,column=3,pady=5)
 
 #Treeview
@@ -108,9 +108,33 @@ tree.column('Phone',width=130)
 tree.column('Role',width=160)
 tree.column('Gender',width=100)
 tree.column('Salary',width=130)
+
+#scrollbar
+scrollbar = ttk.Scrollbar(rightFrame,orient=VERTICAL)
+scrollbar.grid(row=1,column=4,sticky='ns')
  
 #styling the heading
 style = ttk.Style()
-style.configure("Treeview.Heading", font=('arial',12,'bold'))
+style.configure('Treeview.Heading', font=('arial',12,'bold'))
+
+#Button on lower side
+buttonFrame = CTkFrame(window)
+buttonFrame.grid(row=2,column=0,columnspan=2)
+
+#add button
+addButton = CTkButton(buttonFrame, text='Add Employee',font=('arial',15,'bold'),width=190,corner_radius=15)
+addButton.grid(row=0,column=0,padx=20,pady=10)
+
+#update button
+updateButton = CTkButton(buttonFrame, text='Update Employee',font=('arial',15,'bold'),width=190,corner_radius=15)
+updateButton.grid(row=0,column=1,padx=20,pady=10)
+
+#delete button
+deleteButton = CTkButton(buttonFrame, text='Delete Employee',font=('arial',15,'bold'),width=190,corner_radius=15)
+deleteButton.grid(row=0,column=2,padx=20,pady=10)
+
+#Delete ALL button
+deleteallButton = CTkButton(buttonFrame, text='Delete All',font=('arial',15,'bold'),width=190,corner_radius=15)
+deleteallButton.grid(row=0,column=3,padx=20,pady=10)
 
 window.mainloop() 
