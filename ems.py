@@ -1,8 +1,17 @@
 from customtkinter import *
 from PIL import Image
-from tkinter import ttk
+from tkinter import ttk, messagebox
+import database
 
-#The only_numbers function checks whether the input is numeric.
+#Define Functions of button
+def add_employee():
+    if idEntry.get()=='' or nameEntry.get()=='' or phoneEntry.get()=='' or salaryEntry.get()=='':
+        messagebox.showerror('Error','All fields are required')
+    else:
+        database.insert(idEntry.get(),nameEntry.get(),phoneEntry.get(),roleBox.get(),genderBox.get(),salaryEntry.get())
+
+
+#The only_numbers function checks whether the input in phone & salary field is numeric.
 def only_numbers(char):
     return char.isdigit()
 
@@ -23,26 +32,29 @@ leftFrame.grid(row=1,column=0)
 
 #id_label
 idLabel = CTkLabel(leftFrame, text='Id', font=('arial',18,'bold'))
-idLabel.grid(row=0,column=0,sticky='w')
-idEntry = CTkEntry(leftFrame, font=('arial',12,'bold'), width=180)
+idLabel.grid(row=0,column=0,sticky='w',padx=20)
+idEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180)
 idEntry.grid(row=0,column=1,padx=20,pady=15)
 
 #Name_label
 nameLabel = CTkLabel(leftFrame, text='Name', font=('arial',18,'bold'))
-nameLabel.grid(row=1,column=0,sticky='w')
-nameEntry = CTkEntry(leftFrame, font=('arial',12,'bold'), width=180)
+nameLabel.grid(row=1,column=0,sticky='w',padx=20)
+nameEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180)
 nameEntry.grid(row=1,column=1,padx=20,pady=15)
 
 #Phone_label
 phoneLabel = CTkLabel(leftFrame, text='Phone', font=('arial',18,'bold'))
-phoneLabel.grid(row=2,column=0,sticky='w')
-phoneEntry = CTkEntry(leftFrame, font=('arial',12,'bold'), width=180)
+phoneLabel.grid(row=2,column=0,sticky='w',padx=20)
+#to make sure only numerical values are added
+vcmd = (leftFrame.register(only_numbers), '%S')
+#The validate="key" and validatecommand=vcmd parameters are applied to restrict the input to only digits.
+phoneEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180, validate="key", validatecommand=vcmd)
 phoneEntry.grid(row=2,column=1,padx=20,pady=15)
 
 #Role_label
 roleLabel = CTkLabel(leftFrame, text='Role', font=('arial',18,'bold'))
-roleLabel.grid(row=3,column=0,sticky='w')
-role_options = ['Web Developer','SOftware Developer','App Developer','Cloud Architect','HR',
+roleLabel.grid(row=3,column=0,sticky='w',padx=20)
+role_options = ['Web Developer','Software Developer','App Developer','Cloud Architect','HR',
                 'Network Engineer','Data Analyst','Data Scientist','Project Manager','Sales Manager']
 roleBox = CTkComboBox(leftFrame, values=role_options, width=180,state='readonly')
 roleBox.grid(row=3,column=1,padx=20,pady=15)
@@ -50,7 +62,7 @@ roleBox.set('Select Option')
 
 #gender_label
 genderLabel = CTkLabel(leftFrame, text='Gender', font=('arial',18,'bold'))
-genderLabel.grid(row=4,column=0,sticky='w')
+genderLabel.grid(row=4,column=0,sticky='w',padx=20)
 gender_options = ['Male','Female','Transgender']
 genderBox = CTkComboBox(leftFrame, values=gender_options, width=180,state='readonly')
 genderBox.grid(row=4,column=1,padx=20,pady=15)
@@ -58,11 +70,11 @@ genderBox.set('Select Option')
 
 #salary_label
 salaryLabel = CTkLabel(leftFrame, text='Salary', font=('arial',18,'bold'))
-salaryLabel.grid(row=5,column=0,sticky='w')
+salaryLabel.grid(row=5,column=0,sticky='w',padx=20)
 #to make sure only numerical values are added
 vcmd = (leftFrame.register(only_numbers), '%S')
 #The validate="key" and validatecommand=vcmd parameters are applied to restrict the input to only digits.
-salaryEntry = CTkEntry(leftFrame, font=('arial',12,'bold'), width=180, validate="key", validatecommand=vcmd)
+salaryEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180, validate="key", validatecommand=vcmd)
 salaryEntry.grid(row=5,column=1,padx=20,pady=15)
 
 
@@ -121,20 +133,24 @@ style.configure('Treeview.Heading', font=('arial',12,'bold'))
 buttonFrame = CTkFrame(window)
 buttonFrame.grid(row=2,column=0,columnspan=2)
 
+#New button
+NewButton = CTkButton(buttonFrame, text='New Employee',font=('arial',15,'bold'),width=160,corner_radius=15)
+NewButton.grid(row=0,column=0,padx=13,pady=10)
+
 #add button
-addButton = CTkButton(buttonFrame, text='Add Employee',font=('arial',15,'bold'),width=190,corner_radius=15)
-addButton.grid(row=0,column=0,padx=20,pady=10)
+addButton = CTkButton(buttonFrame, text='Add Employee',font=('arial',15,'bold'),width=160,corner_radius=15,command=add_employee)
+addButton.grid(row=0,column=1,padx=13,pady=10)
 
 #update button
-updateButton = CTkButton(buttonFrame, text='Update Employee',font=('arial',15,'bold'),width=190,corner_radius=15)
-updateButton.grid(row=0,column=1,padx=20,pady=10)
+updateButton = CTkButton(buttonFrame, text='Update Employee',font=('arial',15,'bold'),width=160,corner_radius=15)
+updateButton.grid(row=0,column=2,padx=13,pady=10)
 
 #delete button
-deleteButton = CTkButton(buttonFrame, text='Delete Employee',font=('arial',15,'bold'),width=190,corner_radius=15)
-deleteButton.grid(row=0,column=2,padx=20,pady=10)
+deleteButton = CTkButton(buttonFrame, text='Delete Employee',font=('arial',15,'bold'),width=160,corner_radius=15)
+deleteButton.grid(row=0,column=3,padx=13,pady=10)
 
 #Delete ALL button
-deleteallButton = CTkButton(buttonFrame, text='Delete All',font=('arial',15,'bold'),width=190,corner_radius=15)
-deleteallButton.grid(row=0,column=3,padx=20,pady=10)
+deleteallButton = CTkButton(buttonFrame, text='Delete All',font=('arial',15,'bold'),width=160,corner_radius=15)
+deleteallButton.grid(row=0,column=4,padx=13,pady=10)
 
 window.mainloop() 
