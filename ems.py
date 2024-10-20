@@ -3,12 +3,48 @@ from PIL import Image
 from tkinter import ttk, messagebox
 import database
 
+#Define Functions
+
+def selection(event):
+    selected_item = tree.selection()
+    if selected_item:
+        row = tree.item(selected_item)['values']
+        clear_entries()
+        idEntry.insert(0,row[0])
+        nameEntry.insert(0,row[1])
+        phoneEntry.insert(0,row[2])
+        roleBox.set(row[3])
+        genderBox.set(row[4])
+        salaryEntry.insert(0,row[5])
+
+  # Check if salary is being retrieved correctly
+
+
+def clear_entries():
+    idEntry.delete(0,END)
+    nameEntry.delete(0,END)
+    phoneEntry.delete(0,END)
+    salaryEntry.delete(0,END)
+    roleBox.set('Select Option')
+    genderBox.set('Select Option')
+
+def treeview_data():
+    employees=database.fetch_employees()
+    tree.delete(*tree.get_children())
+    for employee in employees:
+        tree.insert('', END , values=employee)
+
 #Define Functions of button
 def add_employee():
     if idEntry.get()=='' or nameEntry.get()=='' or phoneEntry.get()=='' or salaryEntry.get()=='':
         messagebox.showerror('Error','All fields are required')
+    elif database.id_exists(idEntry.get()):
+        messagebox.showerror('Error','Id already exists')
     else:
         database.insert(idEntry.get(),nameEntry.get(),phoneEntry.get(),roleBox.get(),genderBox.get(),salaryEntry.get())
+        treeview_data()
+        clear_entries()
+        messagebox.showinfo('Success','Employee added successfully')
 
 
 #The only_numbers function checks whether the input in phone & salary field is numeric.
@@ -72,9 +108,9 @@ genderBox.set('Select Option')
 salaryLabel = CTkLabel(leftFrame, text='Salary', font=('arial',18,'bold'))
 salaryLabel.grid(row=5,column=0,sticky='w',padx=20)
 #to make sure only numerical values are added
-vcmd = (leftFrame.register(only_numbers), '%S')
+# vcmd = (leftFrame.register(only_numbers), '%S')
 #The validate="key" and validatecommand=vcmd parameters are applied to restrict the input to only digits.
-salaryEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180, validate="key", validatecommand=vcmd)
+salaryEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180)
 salaryEntry.grid(row=5,column=1,padx=20,pady=15)
 
 
@@ -128,6 +164,7 @@ scrollbar.grid(row=1,column=4,sticky='ns')
 #styling the heading
 style = ttk.Style()
 style.configure('Treeview.Heading', font=('arial',12,'bold'))
+style.configure('Treeview', font=('arial',15,'bold'), rowheight=30)
 
 #Button on lower side
 buttonFrame = CTkFrame(window)
@@ -152,5 +189,9 @@ deleteButton.grid(row=0,column=3,padx=13,pady=10)
 #Delete ALL button
 deleteallButton = CTkButton(buttonFrame, text='Delete All',font=('arial',15,'bold'),width=160,corner_radius=15)
 deleteallButton.grid(row=0,column=4,padx=13,pady=10)
+
+treeview_data()
+
+window.bind('<ButtonRelease>', selection)
 
 window.mainloop() 
