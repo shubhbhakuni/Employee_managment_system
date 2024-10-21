@@ -5,6 +5,22 @@ import database
 
 #Define Functions
 
+def show_all():
+    treeview_data()
+    searchEntry.delete(0,END)
+    searchBox.set('Select Option')
+
+def search_employee():
+    if searchEntry.get()=='':
+        messagebox.showerror('Error','Enter value to search')
+    elif searchBox.get()=='Select Option':
+        messagebox.showerror('Error','Select an option to search')
+    else:
+        searched_data=database.search (searchBox.get(),searchEntry.get())
+        tree.delete(*tree.get_children())
+        for employee in searched_data:
+            tree.insert('', END , values=employee)
+
 def delete_employee():
     selected_item=tree.selection()
     if not selected_item:
@@ -37,9 +53,6 @@ def selection(event):
         genderBox.set(row[4])
         salaryEntry.insert(0,row[5])
 
-  # Check if salary is being retrieved correctly
-
-
 def clear_entries(value=False):
     if value :
         tree.selection_remove(tree.focus())
@@ -57,7 +70,7 @@ def treeview_data():
     for employee in employees:
         tree.insert('', END , values=employee)
 
-#Define Functions of button
+#Define Function of ADD button
 def add_employee():
     if idEntry.get()=='' or nameEntry.get()=='' or phoneEntry.get()=='' or salaryEntry.get()=='':
         messagebox.showerror('Error','All fields are required')
@@ -141,7 +154,7 @@ rightFrame = CTkFrame(window)
 rightFrame.grid(row=1,column=1) 
 
 #search options
-search_options=['Id','Name','Phone','Role','Gender','Salary']
+search_options=['Select Option','Id','Name','Phone','Role','Gender','Salary']
 searchBox = CTkComboBox(rightFrame, values=search_options, state='readonly')
 searchBox.grid(row=0,column=0)
 searchBox.set('Select Option')
@@ -151,11 +164,11 @@ searchEntry = CTkEntry(rightFrame)
 searchEntry.grid(row=0,column=1)
 
 #search button
-searchButton = CTkButton(rightFrame, text='SEARCH',width=100)
+searchButton = CTkButton(rightFrame, text='SEARCH',width=100,command=search_employee)
 searchButton.grid(row=0,column=2)
 
 #Show All Button
-showallButton = CTkButton(rightFrame, text='Show All',width=100)
+showallButton = CTkButton(rightFrame, text='Show All',width=100,command=show_all)
 showallButton.grid(row=0,column=3,pady=5)
 
 #Treeview

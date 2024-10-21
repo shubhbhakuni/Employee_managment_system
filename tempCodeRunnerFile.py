@@ -1,2 +1,1 @@
-print(row)  
-        print(f"Salary: {row[5]}")
+elif searchBox.get()==''
