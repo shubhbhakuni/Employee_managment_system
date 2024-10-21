@@ -5,6 +5,14 @@ import database
 
 #Define Functions
 
+def delete_all():
+    result = messagebox.askyesno('Confirm','Do you really want to DELETE ALL data?')
+    if result:
+        database.delete_all_records()
+        treeview_data()
+        clear_entries() 
+        messagebox.showinfo('Success','All data deleted successfully')
+
 def show_all():
     treeview_data()
     searchEntry.delete(0,END)
@@ -105,14 +113,14 @@ leftFrame.grid(row=1,column=0)
 #id_label
 idLabel = CTkLabel(leftFrame, text='Id', font=('arial',18,'bold'))
 idLabel.grid(row=0,column=0,sticky='w',padx=20)
-idEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180)
-idEntry.grid(row=0,column=1,padx=20,pady=15)
+idEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=160)
+idEntry.grid(row=0,column=1,padx=13,pady=15)
 
 #Name_label
 nameLabel = CTkLabel(leftFrame, text='Name', font=('arial',18,'bold'))
 nameLabel.grid(row=1,column=0,sticky='w',padx=20)
-nameEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180)
-nameEntry.grid(row=1,column=1,padx=20,pady=15)
+nameEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=160)
+nameEntry.grid(row=1,column=1,padx=13,pady=15)
 
 #Phone_label
 phoneLabel = CTkLabel(leftFrame, text='Phone', font=('arial',18,'bold'))
@@ -120,24 +128,24 @@ phoneLabel.grid(row=2,column=0,sticky='w',padx=20)
 #to make sure only numerical values are added
 vcmd = (leftFrame.register(only_numbers), '%S')
 #The validate="key" and validatecommand=vcmd parameters are applied to restrict the input to only digits.
-phoneEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180, validate="key", validatecommand=vcmd)
-phoneEntry.grid(row=2,column=1,padx=20,pady=15)
+phoneEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=160, validate="key", validatecommand=vcmd)
+phoneEntry.grid(row=2,column=1,padx=13,pady=15)
 
 #Role_label
 roleLabel = CTkLabel(leftFrame, text='Role', font=('arial',18,'bold'))
 roleLabel.grid(row=3,column=0,sticky='w',padx=20)
 role_options = ['Web Developer','Software Developer','App Developer','Cloud Architect','HR',
                 'Network Engineer','Data Analyst','Data Scientist','Project Manager','Sales Manager']
-roleBox = CTkComboBox(leftFrame, values=role_options, width=180,state='readonly')
-roleBox.grid(row=3,column=1,padx=20,pady=15)
+roleBox = CTkComboBox(leftFrame, values=role_options, width=160,state='readonly')
+roleBox.grid(row=3,column=1,padx=13,pady=15)
 roleBox.set('Select Option')
 
 #gender_label
 genderLabel = CTkLabel(leftFrame, text='Gender', font=('arial',18,'bold'))
 genderLabel.grid(row=4,column=0,sticky='w',padx=20)
-gender_options = ['Male','Female','Transgender']
-genderBox = CTkComboBox(leftFrame, values=gender_options, width=180,state='readonly')
-genderBox.grid(row=4,column=1,padx=20,pady=15)
+gender_options = ['Male','Female','Other']
+genderBox = CTkComboBox(leftFrame, values=gender_options, width=160,state='readonly')
+genderBox.grid(row=4,column=1,padx=13,pady=15)
 genderBox.set('Select Option')
 
 #salary_label
@@ -146,8 +154,8 @@ salaryLabel.grid(row=5,column=0,sticky='w',padx=20)
 #to make sure only numerical values are added
 # vcmd = (leftFrame.register(only_numbers), '%S')
 #The validate="key" and validatecommand=vcmd parameters are applied to restrict the input to only digits.
-salaryEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=180)
-salaryEntry.grid(row=5,column=1,padx=20,pady=15)
+salaryEntry = CTkEntry(leftFrame, font=('arial',16,'bold'), width=160)
+salaryEntry.grid(row=5,column=1,padx=13,pady=15)
 
 
 rightFrame = CTkFrame(window)
@@ -223,7 +231,7 @@ deleteButton = CTkButton(buttonFrame, text='Delete Employee',font=('arial',15,'b
 deleteButton.grid(row=0,column=3,padx=13,pady=10)
 
 #Delete ALL button
-deleteallButton = CTkButton(buttonFrame, text='Delete All',font=('arial',15,'bold'),width=160,corner_radius=15)
+deleteallButton = CTkButton(buttonFrame, text='Delete All',font=('arial',15,'bold'),width=160,corner_radius=15,command=delete_all)
 deleteallButton.grid(row=0,column=4,padx=13,pady=10)
 
 treeview_data()

@@ -43,4 +43,8 @@ def search(option,value):
     result = mycursor.fetchall()
     return result
 
+def delete_all_records():
+    mycursor.execute('TRUNCATE TABLE data')
+    conn.commit()
+
 connect_database()
