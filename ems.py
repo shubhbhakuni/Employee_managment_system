@@ -5,6 +5,16 @@ import database
 
 #Define Functions
 
+def update_employee():
+    selected_item=tree.selection()
+    if not selected_item:
+        messagebox.showerror('Error','Select an employee to update')
+    else:
+        database.update(idEntry.get(), nameEntry.get(), phoneEntry.get(), roleBox.get(), genderBox.get(), salaryEntry.get())
+        treeview_data()
+        clear_entries()
+        messagebox.showinfo('Success','Employee Data updated successfully')
+
 def selection(event):
     selected_item = tree.selection()
     if selected_item:
@@ -28,6 +38,7 @@ def clear_entries():
     roleBox.set('Select Option')
     genderBox.set('Select Option')
 
+#display data in side treeview
 def treeview_data():
     employees=database.fetch_employees()
     tree.delete(*tree.get_children())
@@ -179,7 +190,7 @@ addButton = CTkButton(buttonFrame, text='Add Employee',font=('arial',15,'bold'),
 addButton.grid(row=0,column=1,padx=13,pady=10)
 
 #update button
-updateButton = CTkButton(buttonFrame, text='Update Employee',font=('arial',15,'bold'),width=160,corner_radius=15)
+updateButton = CTkButton(buttonFrame, text='Update Employee',font=('arial',15,'bold'),width=160,corner_radius=15,command=update_employee)
 updateButton.grid(row=0,column=2,padx=13,pady=10)
 
 #delete button
