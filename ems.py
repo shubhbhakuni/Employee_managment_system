@@ -30,7 +30,9 @@ def selection(event):
   # Check if salary is being retrieved correctly
 
 
-def clear_entries():
+def clear_entries(value=False):
+    if value :
+        tree.selection_remove(tree.focus())
     idEntry.delete(0,END)
     nameEntry.delete(0,END)
     phoneEntry.delete(0,END)
@@ -182,7 +184,7 @@ buttonFrame = CTkFrame(window)
 buttonFrame.grid(row=2,column=0,columnspan=2)
 
 #New button
-NewButton = CTkButton(buttonFrame, text='New Employee',font=('arial',15,'bold'),width=160,corner_radius=15)
+NewButton = CTkButton(buttonFrame, text='New Employee',font=('arial',15,'bold'),width=160,corner_radius=15,command=lambda: clear_entries(True))
 NewButton.grid(row=0,column=0,padx=13,pady=10)
 
 #add button
