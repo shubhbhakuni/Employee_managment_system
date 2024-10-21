@@ -34,4 +34,8 @@ def update(id,new_name,new_phone,new_role,new_gender,new_salary):
     mycursor.execute('UPDATE data SET name=%s,phone=%s,role=%s,gender=%s,salary=%s WHERE id=%s',(new_name,new_phone,new_role,new_gender,new_salary,id))
     conn.commit()
 
+def delete(id):
+    mycursor.execute('DELETE FROM data WHERE id = %s', id)
+    conn.commit()
+
 connect_database()
